@@ -1,11 +1,9 @@
 package com.alonsoestevam.springcourse.config;
 
-import com.alonsoestevam.springcourse.entities.Category;
-import com.alonsoestevam.springcourse.entities.Order;
-import com.alonsoestevam.springcourse.entities.OrderStatus;
-import com.alonsoestevam.springcourse.entities.User;
+import com.alonsoestevam.springcourse.entities.*;
 import com.alonsoestevam.springcourse.repositories.CategoryRepository;
 import com.alonsoestevam.springcourse.repositories.OrderRepository;
+import com.alonsoestevam.springcourse.repositories.ProductRepository;
 import com.alonsoestevam.springcourse.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -36,6 +37,15 @@ public class TestConfig implements CommandLineRunner {
         Category cat3 = new Category(null, "Computers");
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
+        Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+        Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+        Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 3250.0, "");
+        Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+        Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+        Product p6 = new Product(null, "Notebook Dell Inspiron", "Tela 21' processador i5 8GB RAM, 256GB armazenamento", 2899.99, "");
+
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6));
 
         // tudo dentro desse método vai ser executado quando a aplicação for iniciada
                         // id null porque o id será gerado pelo banco de dados
