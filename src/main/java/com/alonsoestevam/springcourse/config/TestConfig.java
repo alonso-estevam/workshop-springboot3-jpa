@@ -47,6 +47,16 @@ public class TestConfig implements CommandLineRunner {
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6));
 
+        // mapeando categorias e produtos:
+        p1.getCategories().add(cat2);
+        p2.getCategories().add(cat1);
+        p3.getCategories().addAll(Arrays.asList(cat1, cat3));
+        p4.getCategories().add(cat3);
+        p5.getCategories().add(cat2);
+        p6.getCategories().addAll(Arrays.asList(cat1, cat3));
+
+        productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6));
+
         // tudo dentro desse método vai ser executado quando a aplicação for iniciada
                         // id null porque o id será gerado pelo banco de dados
         User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");

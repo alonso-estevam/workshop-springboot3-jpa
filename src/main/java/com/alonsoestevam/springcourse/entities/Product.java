@@ -26,7 +26,13 @@ public class Product implements Serializable {
     A coleção precisa começar vazia, mas não nula, por isso
     usamos Set para garantir que não teremos um produto com
     mais de uma ocorrência na mesma categoria    */
-    @Transient
+    @ManyToMany
+    /* criando uma tabela de associação "tb_product_category"
+    e o nome da chave estrangeira referente a tabela de produto  */
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            // definindo a chave estrangeira da outra entidade
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     public Product() {

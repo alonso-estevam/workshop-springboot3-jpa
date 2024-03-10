@@ -1,5 +1,6 @@
 package com.alonsoestevam.springcourse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,7 +19,9 @@ public class Category implements Serializable {
     private Long id;
     private String name;
 
-    @Transient
+    // "categories" é o nome da coleção na entidade Product
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
     public Category() {

@@ -23,6 +23,9 @@ public class Order implements Serializable{
     private Integer orderStatus;
 
     @ManyToOne
+    /* isso diz que na tabela "tb_orders" no banco de dados teremos uma
+     chave estrangeira chamada "client_id" que contém o id do user
+    associado a esse pedido */
     @JoinColumn(name = "client_id")
     private User client;
 
