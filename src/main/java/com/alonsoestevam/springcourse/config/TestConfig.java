@@ -1,8 +1,10 @@
 package com.alonsoestevam.springcourse.config;
 
+import com.alonsoestevam.springcourse.entities.Category;
 import com.alonsoestevam.springcourse.entities.Order;
 import com.alonsoestevam.springcourse.entities.OrderStatus;
 import com.alonsoestevam.springcourse.entities.User;
+import com.alonsoestevam.springcourse.repositories.CategoryRepository;
 import com.alonsoestevam.springcourse.repositories.OrderRepository;
 import com.alonsoestevam.springcourse.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,18 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public void run(String... args) throws Exception {
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
         // tudo dentro desse método vai ser executado quando a aplicação for iniciada
                         // id null porque o id será gerado pelo banco de dados
         User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
