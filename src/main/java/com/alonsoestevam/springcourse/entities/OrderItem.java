@@ -16,7 +16,9 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private OrderItemPK id = new OrderItemPK(); // instanciando para não dar nullPointException
+    // sempre que criar classe auxiliar que seja id composto,
+    // lembrar de instanciar para não dar nullPointException
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
@@ -24,6 +26,7 @@ public class OrderItem implements Serializable {
     public OrderItem(){
     }
 
+    // atenção, não colocamos o id nos parâmetros do construtor, mas sim Order e Product
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
         id.setOrder(order);
         id.setProduct(product);
@@ -31,7 +34,8 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
-    @JsonIgnore // esse getOrder é que está chamando o pedido associado
+    @JsonIgnore // para "cortar" a associação de mão dupla (loop infinito)
+    // esse getOrder é que está chamando o pedido associado
     public Order getOrder(){
         return id.getOrder();
     }
@@ -40,12 +44,12 @@ public class OrderItem implements Serializable {
         id.setOrder(order);
     }
 
-    public void setProduct(Product product){
-        id.setProduct(product);
-    }
-
     public Product getProduct(){
         return id.getProduct();
+    }
+
+    public void setProduct(Product product){
+        id.setProduct(product);
     }
 
     public Integer getQuantity() {

@@ -1,5 +1,6 @@
 package com.alonsoestevam.springcourse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -27,13 +28,17 @@ public class Product implements Serializable {
     usamos Set para garantir que não teremos um produto com
     mais de uma ocorrência na mesma categoria    */
     @ManyToMany
-    /* criando uma tabela de associação "tb_product_category"
-    e o nome da chave estrangeira referente a tabela de produto  */
+    // criando uma tabela de associação "tb_product_category"
     @JoinTable(name = "tb_product_category",
+            // e o nome da chave estrangeira referente a tabela de produto
             joinColumns = @JoinColumn(name = "product_id"),
-            // definindo a chave estrangeira da outra entidade
+            // definindo a chave estrangeira referente à tabela de categoria
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    // Associa uma coleção de OrderItem a um Product
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
     }
@@ -90,6 +95,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders(){
+        Set<Order> set = new HashSet<>();
+        for(OrderItem oi : items){
+            set.add(oi.getOrder());
+        }
+        return set;
     }
 
     @Override

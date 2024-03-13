@@ -2,6 +2,7 @@ package com.alonsoestevam.springcourse.entities.pk;
 
 import com.alonsoestevam.springcourse.entities.Order;
 import com.alonsoestevam.springcourse.entities.Product;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -10,9 +11,11 @@ import java.util.Objects;
 
 /**
  * Classe auxiliar para referenciar Pedido e Produto.
- * Pacote 'pk' para guardar classes auxiliares que serão
- * chaves primárias compostas
+ * Pacote 'pk' para guardar classes auxiliares que serão chaves primárias compostas.
+ * Essa classe é usada para representar a chave primária composta de uma entidade
+ * que relaciona um pedido (Order) a um produto (Product) em um relacionamento de muitos para muitos.
  */
+@Embeddable
 public class OrderItemPK implements Serializable {
 
     private static final long serialVersionUID = 1L;

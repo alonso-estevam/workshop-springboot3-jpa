@@ -22,6 +22,7 @@ public class User implements Serializable {
     private String password;
 
     @JsonIgnore // para não dar loop infinito entre cliente e pedido
+    // Um User pode fazer muitos pedidos
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

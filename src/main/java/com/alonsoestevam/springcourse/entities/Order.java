@@ -2,7 +2,6 @@ package com.alonsoestevam.springcourse.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -28,12 +27,15 @@ public class Order implements Serializable{
     @ManyToOne
     /* isso diz que na tabela "tb_orders" no banco de dados teremos uma
      chave estrangeira chamada "client_id" que contém o id do user
-    associado a esse pedido */
+    associado a esse pedido.
+    Um cliente pode fazer vários pedidos => MANY (pedidos) to ONE (cliente) */
     @JoinColumn(name = "client_id")
     private User client;
 
+    // @OneToMany porque um Pedido pode ter muitos Itens => ONE (pedido) to MANY (itens)
     // o OrderItem tem o atributo id, que é do tipo OrderItemPK (order e product)
-    @OneToMany(mappedBy = "id.order")
+    @OneToMany(mappedBy = "id.order") // como se fosse OrdemItem id = new OrderItem(); id.getOrder();
+    // uma coleção de OrderItem associada a um Order
     private Set<OrderItem> items = new HashSet<>();
 
     public Order(){
