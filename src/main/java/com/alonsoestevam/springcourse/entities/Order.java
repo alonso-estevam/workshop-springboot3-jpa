@@ -38,6 +38,12 @@ public class Order implements Serializable{
     // uma coleção de OrderItem associada a um Order
     private Set<OrderItem> items = new HashSet<>();
 
+    /* Em relacionamentos 1:1, estamos mapeando as duas entidades para ter o mesmo id
+    por exemplo, se um pedido tiver id = 5, o pagamento desse pedido também deve ter
+    id = 5, daí a obrigatoriedade do cascade = CascadeType.ALL     */
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order(){
     }
 
@@ -80,6 +86,14 @@ public class Order implements Serializable{
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems(){
