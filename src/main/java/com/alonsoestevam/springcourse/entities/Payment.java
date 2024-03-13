@@ -1,5 +1,6 @@
 package com.alonsoestevam.springcourse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class Payment implements Serializable {
 
     private Instant moment;
 
+    @JsonIgnore
     @OneToOne
     @MapsId // essas anotações vão na classe dependente!
     private Order order; // aqui já lembrar de acrescentar o pagamento na classe Order
