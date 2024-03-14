@@ -4,9 +4,9 @@ import com.alonsoestevam.springcourse.entities.User;
 import com.alonsoestevam.springcourse.repositories.UserRepository;
 import com.alonsoestevam.springcourse.services.exceptions.DatabaseException;
 import com.alonsoestevam.springcourse.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +32,10 @@ public class UserService {
 
     public void delete(Long id){
         try {
+            if(!repository.existsById(id)){
+                throw new ResourceNotFoundException(id);
+            }
             repository.deleteById(id);
-        } catch (EmptyResultDataAccessException e){
-            throw new ResourceNotFoundException(id);
         } catch (DataIntegrityViolationException e){
             throw new DatabaseException(e.getMessage());
         }
@@ -42,9 +43,13 @@ public class UserService {
 
     public User update(Long id, User dataFromRequest){
         // getReferenceById é mais eficiente nesse caso do que o findById
-        User dataFromDataBase = repository.getReferenceById(id);
-        updateData(dataFromDataBase, dataFromRequest);
-        return repository.save(dataFromDataBase);
+        try{
+            User dataFromDataBase = repository.getReferenceById(id);
+            updateData(dataFromDataBase, dataFromRequest);
+            return repository.save(dataFromDataBase);
+        } catch(EntityNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User dataFromDataBase, User dataFromRequest){
