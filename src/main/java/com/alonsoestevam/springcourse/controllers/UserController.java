@@ -4,11 +4,10 @@ import com.alonsoestevam.springcourse.entities.User;
 import com.alonsoestevam.springcourse.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,5 +27,17 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable Long id){
         User user = service.findById(id);
         return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<User> insert(@RequestBody User user){
+        user = service.insert(user);
+        /* No caso de requisição POST, a boa prática é devolver o código 201 (CREATED),
+        junto com o cabeçalho Location e também devolver no corpo da resposta uma
+        representação do recurso que acabou de ser cadastrado na API. */
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(user);
     }
 }
