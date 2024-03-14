@@ -2,6 +2,7 @@ package com.alonsoestevam.springcourse.services;
 
 import com.alonsoestevam.springcourse.entities.User;
 import com.alonsoestevam.springcourse.repositories.UserRepository;
+import com.alonsoestevam.springcourse.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UserService {
 
     // o método findById vai até o banco de dados e traz o objeto
     public User findById(Long id){
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User user){
